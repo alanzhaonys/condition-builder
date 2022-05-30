@@ -1,29 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import URLInput from './components/URLInput';
+import ConditionBuilder from './components/ConditionBuilder';
+import Results from './components/Results';
+import AppContext from './lib/AppContext';
+import { Data } from './lib/Data';
+import { initData, initFilters } from './lib/init';
+import { FilterList } from './lib/FilterList';
 
 function App() {
+  const [data, setData] = useState<Data>(initData);
+  const [filters, setFilters] = useState<FilterList[]>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit
-          {' '}
-          <code>src/App.tsx</code>
-          {' '}
-          and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React Test
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={{ data, setData, filters, setFilters }}>
+      <div className="App">
+        <URLInput />
+        <ConditionBuilder />
+        <Results />
+      </div>
+    </AppContext.Provider>
   );
 }
 
