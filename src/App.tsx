@@ -5,12 +5,11 @@ import ConditionBuilder from './components/ConditionBuilder';
 import Results from './components/Results';
 import AppContext from './lib/AppContext';
 import { Data } from './lib/Data';
-import { initData, initFilters } from './lib/init';
 import { FilterList } from './lib/FilterList';
 
 function App() {
-  const [data, setData] = useState<Data>(initData);
-  const [filters, setFilters] = useState<FilterList[]>([]);
+  const [data, setData] = useState<Data | null>(null);
+  const [filters, setFilters] = useState<FilterList[] | null>(null);
 
   return (
     <AppContext.Provider value={{ data, setData, filters, setFilters }}>
@@ -23,4 +22,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);

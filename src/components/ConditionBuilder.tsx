@@ -4,13 +4,15 @@ import ConditionGroup from './ConditionBuilder/ConditionGroup';
 import AppContext from '../lib/AppContext';
 
 function ConditionBuilder() {
-  const { data } = useContext(AppContext);
+  const context = useContext(AppContext);
+  const data = context.data;
+
+  console.log(data);
 
   return (
     <div className="condition-builder">
       <div>
-        {data.columns.length > 1 &&
-          data.columns.map((column) => <li key={column}>{column}</li>)}
+        {/*data.columns.map((column) => <li key={column}>{column}</li>)*/}
       </div>
       <ConditionGroup />
       <AddButton />
