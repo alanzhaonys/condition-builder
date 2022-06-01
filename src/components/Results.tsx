@@ -2,10 +2,8 @@ import React, { useContext } from 'react';
 import AppContext from '../lib/AppContext';
 
 function Results() {
-  const context = useContext(AppContext);
-  const data = context.data;
-
-  console.log(data);
+  // const context = useContext(AppContext);
+  // const data = context.data;
 
   return <div className="results" />;
 }

@@ -3,7 +3,10 @@ import AppContext from '../lib/AppContext';
 import { DataLoader } from '../lib/DataLoader';
 import { Filter } from '../lib/Filter';
 import { FilterList } from '../lib/FilterList';
+import { initData } from '../lib/Data';
+import { initFilterGroup } from '../lib/FilterGroup';
 import { Operator } from '../lib/Operator';
+import * as _ from 'lodash';
 
 function URLInput() {
   const context = useContext(AppContext);
@@ -21,6 +24,7 @@ function URLInput() {
   const loadDataFromUrl = async (url: string) => {
     try {
       setLoading(true);
+      filterGroup.reset();
       // Data
       const dataLoader = new DataLoader(url);
       const data = await dataLoader.load();
@@ -33,15 +37,16 @@ function URLInput() {
       };
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);
-      filterGroup.reset();
       filterGroup.add(firstFilterList);
-      setFilterGroup(filterGroup);
+      setFilterGroup(_.cloneDeep(filterGroup));
       setError(null);
     } catch (error) {
       let errorMessage = '';
       if (error instanceof TypeError) {
         errorMessage = error.message;
       }
+      setData(initData);
+      setFilterGroup(initFilterGroup);
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -53,7 +58,9 @@ function URLInput() {
 
     if (event.key === 'Enter') {
       if (!isUrl(url)) {
-        setError('URL entered is invalid.');
+        setData(initData);
+        setFilterGroup(initFilterGroup);
+        setError('URL entered is invalid');
         return;
       }
       loadDataFromUrl(url);

@@ -13,12 +13,6 @@ export class DataLoader {
     const response = await fetch(this.url, {
       method: this.method,
     });
-
-    if (!response.ok) {
-      throw new Error(
-        `There is a HTTP error: The status is ${response.status}`,
-      );
-    }
     return await response.json();
   }
 
