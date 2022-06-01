@@ -1,9 +1,14 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../lib/AppContext';
+import { DataLoader } from '../lib/DataLoader';
+import { Filter } from '../lib/Filter';
+import { FilterList } from '../lib/FilterList';
+import { Operator } from '../lib/Operator';
 
 function URLInput() {
   const context = useContext(AppContext);
   const setData = context.setData;
+  const setFilters = context.setFilters;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,15 +20,19 @@ function URLInput() {
   const loadDataFromUrl = async (url: string) => {
     try {
       setLoading(true);
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(
-          `There is a HTTP error: The status is ${response.status}`,
-        );
-      }
-
-      const jsonData = await response.json();
-      setData(jsonData);
+      // Data
+      const dataLoader = new DataLoader(url);
+      const data = await dataLoader.load();
+      setData(data);
+      const firstFilter: Filter = {
+        leftCondition: data.columns[0],
+        operator: Operator.EQ,
+        value: '',
+      };
+      // Filter
+      const firstFilterList = new FilterList();
+      firstFilterList.add(firstFilter);
+      setFilters([firstFilterList]);
       setError(null);
     } catch (error) {
       let errorMessage = '';

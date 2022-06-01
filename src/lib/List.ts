@@ -5,6 +5,10 @@ export class List<T> {
     this.items = [];
   }
 
+  all(): Array<T> {
+    return this.items;
+  }
+
   size(): number {
     return this.items.length;
   }

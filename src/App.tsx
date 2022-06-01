@@ -3,6 +3,7 @@ import './App.css';
 import URLInput from './components/URLInput';
 import ConditionBuilder from './components/ConditionBuilder';
 import Results from './components/Results';
+import AddButton from './components/ConditionBuilder/AddButton';
 import AppContext from './lib/AppContext';
 import { Data } from './lib/Data';
 import { FilterList } from './lib/FilterList';
@@ -15,8 +16,9 @@ function App() {
     <AppContext.Provider value={{ data, setData, filters, setFilters }}>
       <div className="App">
         <URLInput />
-        <ConditionBuilder />
-        <Results />
+        {data && <ConditionBuilder />}
+        <AddButton />
+        {data && <Results />}
       </div>
     </AppContext.Provider>
   );

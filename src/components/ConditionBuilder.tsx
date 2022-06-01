@@ -1,21 +1,22 @@
 import React, { useContext } from 'react';
-import AddButton from './ConditionBuilder/AddButton';
 import ConditionGroup from './ConditionBuilder/ConditionGroup';
 import AppContext from '../lib/AppContext';
 
 function ConditionBuilder() {
   const context = useContext(AppContext);
   const data = context.data;
+  const columns = data?.columns;
+  const filters = context.filters;
 
   console.log(data);
+  console.log(filters);
 
   return (
     <div className="condition-builder">
-      <div>
-        {/*data.columns.map((column) => <li key={column}>{column}</li>)*/}
-      </div>
-      <ConditionGroup />
-      <AddButton />
+      {filters &&
+        filters.map((filterList) => (
+          <ConditionGroup filterList={filterList} columns={columns} />
+        ))}
     </div>
   );
 }
