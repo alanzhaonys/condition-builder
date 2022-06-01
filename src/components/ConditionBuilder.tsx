@@ -6,14 +6,12 @@ function ConditionBuilder() {
   const context = useContext(AppContext);
   const data = context.data;
   const columns = data.columns;
-  const filters = context.filters;
-
-  console.log(filters);
+  const filterGroup = context.filterGroup;
 
   return (
     <div className="condition-builder">
-      {filters &&
-        filters
+      {filterGroup &&
+        filterGroup
           .all()
           .map((filterList, filterListIndex) => (
             <ConditionGroup

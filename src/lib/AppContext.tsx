@@ -5,8 +5,8 @@ import { FilterGroup, initFilterGroup } from './FilterGroup';
 interface AppContextInterface {
   data: Data;
   setData: (data: Data) => void;
-  filters: FilterGroup;
-  setFilters: (filters: FilterGroup) => void;
+  filterGroup: FilterGroup;
+  setFilterGroup: (filterGroup: FilterGroup) => void;
 }
 
 const initAppContext: AppContextInterface = {
@@ -14,8 +14,8 @@ const initAppContext: AppContextInterface = {
   setData: () => {
     return;
   },
-  filters: initFilterGroup,
-  setFilters: () => {
+  filterGroup: initFilterGroup,
+  setFilterGroup: () => {
     return;
   },
 };

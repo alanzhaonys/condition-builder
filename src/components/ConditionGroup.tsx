@@ -15,8 +15,8 @@ interface Props {
 function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
   const context = useContext(AppContext);
   const data = context.data;
-  const filters = context.filters;
-  const setFilters = context.setFilters;
+  const filterGroup = context.filterGroup;
+  const setFilterGroup = context.setFilterGroup;
 
   const addConditionRow = () => {
     const newFilter: Filter = {
@@ -25,17 +25,17 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
       value: '',
     };
     filterList.add(newFilter);
-    filters.set(filterListIndex, filterList);
-    setFilters(_.cloneDeep(filters));
+    filterGroup.set(filterListIndex, filterList);
+    setFilterGroup(_.cloneDeep(filterGroup));
   };
 
   const removeConditionRow = (index: number) => {
     filterList.remove(index);
-    filters.set(filterListIndex, filterList);
+    filterGroup.set(filterListIndex, filterList);
     if (filterList.size() === 0) {
-      filters.remove(filterListIndex);
+      filterGroup.remove(filterListIndex);
     }
-    setFilters(_.cloneDeep(filters));
+    setFilterGroup(_.cloneDeep(filterGroup));
   };
 
   return (

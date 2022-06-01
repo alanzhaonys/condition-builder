@@ -10,10 +10,10 @@ import { FilterGroup, initFilterGroup } from './lib/FilterGroup';
 
 function App() {
   const [data, setData] = useState<Data>(initData);
-  const [filters, setFilters] = useState<FilterGroup>(initFilterGroup);
+  const [filterGroup, setFilterGroup] = useState<FilterGroup>(initFilterGroup);
 
   return (
-    <AppContext.Provider value={{ data, setData, filters, setFilters }}>
+    <AppContext.Provider value={{ data, setData, filterGroup, setFilterGroup }}>
       <div className="App">
         <URLInput />
         {data.columns.length > 1 && <ConditionBuilder />}

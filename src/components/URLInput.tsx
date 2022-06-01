@@ -8,8 +8,8 @@ import { Operator } from '../lib/Operator';
 function URLInput() {
   const context = useContext(AppContext);
   const setData = context.setData;
-  const filters = context.filters;
-  const setFilters = context.setFilters;
+  const filterGroup = context.filterGroup;
+  const setFilterGroup = context.setFilterGroup;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,9 +33,9 @@ function URLInput() {
       };
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);
-      filters.reset();
-      filters.add(firstFilterList);
-      setFilters(filters);
+      filterGroup.reset();
+      filterGroup.add(firstFilterList);
+      setFilterGroup(filterGroup);
       setError(null);
     } catch (error) {
       let errorMessage = '';

@@ -8,8 +8,8 @@ import * as _ from 'lodash';
 function AddButton() {
   const context = useContext(AppContext);
   const data = context.data;
-  const filters = context.filters;
-  const setFilters = context.setFilters;
+  const filterGroup = context.filterGroup;
+  const setFilterGroup = context.setFilterGroup;
 
   const addConditionGroup = () => {
     const newFilter: Filter = {
@@ -19,8 +19,8 @@ function AddButton() {
     };
     const newFilterList = new FilterList();
     newFilterList.add(newFilter);
-    filters.add(newFilterList);
-    setFilters(_.cloneDeep(filters));
+    filterGroup.add(newFilterList);
+    setFilterGroup(_.cloneDeep(filterGroup));
   };
 
   return (
