@@ -3,22 +3,22 @@ import './App.css';
 import URLInput from './components/URLInput';
 import ConditionBuilder from './components/ConditionBuilder';
 import Results from './components/Results';
-import AddButton from './components/ConditionBuilder/AddButton';
+import AddButton from './components/AddButton';
 import AppContext from './lib/AppContext';
-import { Data } from './lib/Data';
-import { FilterList } from './lib/FilterList';
+import { Data, initData } from './lib/Data';
+import { FilterList, initFilters } from './lib/FilterList';
 
 function App() {
-  const [data, setData] = useState<Data | null>(null);
-  const [filters, setFilters] = useState<FilterList[] | null>(null);
+  const [data, setData] = useState<Data>(initData);
+  const [filters, setFilters] = useState<Array<FilterList>>(initFilters);
 
   return (
     <AppContext.Provider value={{ data, setData, filters, setFilters }}>
       <div className="App">
         <URLInput />
-        {data && <ConditionBuilder />}
-        <AddButton />
-        {data && <Results />}
+        {data.columns.length > 1 && <ConditionBuilder />}
+        {data.columns.length > 1 && <AddButton />}
+        {data.columns.length > 1 && <Results />}
       </div>
     </AppContext.Provider>
   );

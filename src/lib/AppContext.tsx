@@ -1,20 +1,20 @@
 import { createContext } from 'react';
-import { Data } from './Data';
-import { FilterList } from './FilterList';
+import { Data, initData } from './Data';
+import { FilterList, initFilters } from './FilterList';
 
 interface AppContextInterface {
-  data: Data | null;
-  setData: (data: Data | null) => void;
-  filters: FilterList[] | null;
-  setFilters: (filters: FilterList[] | null) => void;
+  data: Data;
+  setData: (data: Data) => void;
+  filters: FilterList[];
+  setFilters: (filters: FilterList[]) => void;
 }
 
 const initAppContext: AppContextInterface = {
-  data: null,
+  data: initData,
   setData: () => {
     return;
   },
-  filters: null,
+  filters: initFilters,
   setFilters: () => {
     return;
   },

@@ -24,12 +24,12 @@ function URLInput() {
       const dataLoader = new DataLoader(url);
       const data = await dataLoader.load();
       setData(data);
+      // Filter
       const firstFilter: Filter = {
         leftCondition: data.columns[0],
         operator: Operator.EQ,
         value: '',
       };
-      // Filter
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);
       setFilters([firstFilterList]);
@@ -40,7 +40,6 @@ function URLInput() {
         errorMessage = error.message;
       }
       setError(errorMessage);
-      setData(null);
     } finally {
       setLoading(false);
     }

@@ -22,6 +22,6 @@ export class List<T> {
   }
 
   remove(index: number): void {
-    delete this.items[index];
+    this.items.splice(index, 1);
   }
 }
