@@ -13,14 +13,16 @@ function ConditionBuilder() {
   return (
     <div className="condition-builder">
       {filters &&
-        filters.map((filterList, filterListIndex) => (
-          <ConditionGroup
-            key={`condition-group-${filterListIndex}`}
-            filterList={filterList}
-            filterListIndex={filterListIndex}
-            columns={columns}
-          />
-        ))}
+        filters
+          .all()
+          .map((filterList, filterListIndex) => (
+            <ConditionGroup
+              key={`condition-group-${filterListIndex}`}
+              filterList={filterList}
+              filterListIndex={filterListIndex}
+              columns={columns}
+            />
+          ))}
     </div>
   );
 }

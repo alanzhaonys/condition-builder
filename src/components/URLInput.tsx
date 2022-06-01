@@ -8,6 +8,7 @@ import { Operator } from '../lib/Operator';
 function URLInput() {
   const context = useContext(AppContext);
   const setData = context.setData;
+  const filters = context.filters;
   const setFilters = context.setFilters;
 
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,9 @@ function URLInput() {
       };
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);
-      setFilters([firstFilterList]);
+      filters.reset();
+      filters.add(firstFilterList);
+      setFilters(filters);
       setError(null);
     } catch (error) {
       let errorMessage = '';

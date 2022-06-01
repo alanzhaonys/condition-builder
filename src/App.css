@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.condition-group {
+  border: 1px solid #333;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.condition-row {
+  border: 1px solid #c0c0c0;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.add-button {
+  padding: 10px;
+}

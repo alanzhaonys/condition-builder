@@ -1,12 +1,12 @@
 import { createContext } from 'react';
 import { Data, initData } from './Data';
-import { FilterList, initFilters } from './FilterList';
+import { FilterGroup, initFilterGroup } from './FilterGroup';
 
 interface AppContextInterface {
   data: Data;
   setData: (data: Data) => void;
-  filters: FilterList[];
-  setFilters: (filters: FilterList[]) => void;
+  filters: FilterGroup;
+  setFilters: (filters: FilterGroup) => void;
 }
 
 const initAppContext: AppContextInterface = {
@@ -14,7 +14,7 @@ const initAppContext: AppContextInterface = {
   setData: () => {
     return;
   },
-  filters: initFilters,
+  filters: initFilterGroup,
   setFilters: () => {
     return;
   },

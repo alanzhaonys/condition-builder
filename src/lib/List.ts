@@ -9,6 +9,10 @@ export class List<T> {
     return this.items;
   }
 
+  reset(): void {
+    this.items = [];
+  }
+
   size(): number {
     return this.items.length;
   }
@@ -19,6 +23,10 @@ export class List<T> {
 
   get(index: number): T {
     return this.items[index];
+  }
+
+  set(index: number, value: T): void {
+    this.items[index] = value;
   }
 
   remove(index: number): void {

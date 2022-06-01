@@ -3,6 +3,7 @@ import AppContext from '../lib/AppContext';
 import { Filter } from '../lib/Filter';
 import { FilterList } from '../lib/FilterList';
 import { Operator } from '../lib/Operator';
+import * as _ from 'lodash';
 
 function AddButton() {
   const context = useContext(AppContext);
@@ -18,7 +19,8 @@ function AddButton() {
     };
     const newFilterList = new FilterList();
     newFilterList.add(newFilter);
-    setFilters(filters.concat(newFilterList));
+    filters.add(newFilterList);
+    setFilters(_.cloneDeep(filters));
   };
 
   return (

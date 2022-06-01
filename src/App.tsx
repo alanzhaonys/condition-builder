@@ -6,11 +6,11 @@ import Results from './components/Results';
 import AddButton from './components/AddButton';
 import AppContext from './lib/AppContext';
 import { Data, initData } from './lib/Data';
-import { FilterList, initFilters } from './lib/FilterList';
+import { FilterGroup, initFilterGroup } from './lib/FilterGroup';
 
 function App() {
   const [data, setData] = useState<Data>(initData);
-  const [filters, setFilters] = useState<Array<FilterList>>(initFilters);
+  const [filters, setFilters] = useState<FilterGroup>(initFilterGroup);
 
   return (
     <AppContext.Provider value={{ data, setData, filters, setFilters }}>

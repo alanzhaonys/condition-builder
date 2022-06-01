@@ -4,6 +4,7 @@ import AppContext from '../lib/AppContext';
 import { Filter } from '../lib/Filter';
 import { FilterList } from '../lib/FilterList';
 import { Operator } from '../lib/Operator';
+import * as _ from 'lodash';
 
 interface Props {
   filterList: FilterList;
@@ -24,20 +25,17 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
       value: '',
     };
     filterList.add(newFilter);
-    filters[filterListIndex] = filterList;
-    // A new copy of filters
-    setFilters([...filters]);
-    console.log(filterListIndex);
+    filters.set(filterListIndex, filterList);
+    setFilters(_.cloneDeep(filters));
   };
 
   const removeConditionRow = (index: number) => {
-    filters[filterListIndex].remove(index);
-    if (filters[filterListIndex].size() === 0) {
-      // Remove this group
-      filters.splice(filterListIndex, 1);
+    filterList.remove(index);
+    filters.set(filterListIndex, filterList);
+    if (filterList.size() === 0) {
+      filters.remove(filterListIndex);
     }
-    // A new copy of filters
-    setFilters([...filters]);
+    setFilters(_.cloneDeep(filters));
   };
 
   return (
