@@ -18,6 +18,33 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
   const filterGroup = context.filterGroup;
   const setFilterGroup = context.setFilterGroup;
 
+  const changeLeftConditionCallback = (
+    index: number,
+    leftCondition: string,
+  ) => {
+    const filter: Filter = filterList.get(index);
+    filter.leftCondition = leftCondition;
+    filterList.set(index, filter);
+    filterGroup.set(filterListIndex, filterList);
+    setFilterGroup(_.cloneDeep(filterGroup));
+  };
+
+  const changeOperatorCallback = (index: number, operator: Operator) => {
+    const filter: Filter = filterList.get(index);
+    filter.operator = operator;
+    filterList.set(index, filter);
+    filterGroup.set(filterListIndex, filterList);
+    setFilterGroup(_.cloneDeep(filterGroup));
+  };
+
+  const changeValueCallback = (index: number, value: string) => {
+    const filter: Filter = filterList.get(index);
+    filter.value = value;
+    filterList.set(index, filter);
+    filterGroup.set(filterListIndex, filterList);
+    setFilterGroup(_.cloneDeep(filterGroup));
+  };
+
   const addConditionRow = () => {
     const newFilter: Filter = {
       leftCondition: data.columns[0],
@@ -40,6 +67,7 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
 
   return (
     <div className={`condition-group condition-group-${filterListIndex}`}>
+      <span className="and-connector">AND</span>
       {filterList.size() > 0 &&
         filterList
           .all()
@@ -50,6 +78,9 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
               filterListIndex={filterListIndex}
               filterIndex={filterIndex}
               columns={columns}
+              changeLeftConditionCallback={changeLeftConditionCallback}
+              changeOperatorCallback={changeOperatorCallback}
+              changeValueCallback={changeValueCallback}
               addCallback={addConditionRow}
               removeCallback={removeConditionRow}
             />

@@ -26,7 +26,7 @@ function AddButton() {
   return (
     <div className="add-button">
       <button type="button" onClick={addConditionGroup}>
-        Add
+        + And
       </button>
     </div>
   );

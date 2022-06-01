@@ -49,6 +49,30 @@
   margin: 5px 0;
 }
 
+.condition-group .and-connector {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.condition-group:first-of-type .and-connector {
+  display: none;
+}
+
+.or {
+  color: #0969da;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+
+.add-button button {
+  color: #0969da;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+
 .add-button {
   padding: 10px;
 }
