@@ -20,8 +20,12 @@ function ResultsTable({ columns, rows }: Props) {
     return rows.map((row) => {
       return (
         <tr>
-          {columns.map((column) => {
-            return <td>{row[column as keyof typeof row]}</td>;
+          {columns.map((column, i) => {
+            let value: string = row[column as keyof typeof row];
+            if (typeof value === 'object') {
+              value = JSON.stringify(value);
+            }
+            return <td key={i}>{value}</td>;
           })}
         </tr>
       );
