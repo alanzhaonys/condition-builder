@@ -10,7 +10,8 @@ import * as _ from 'lodash';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
-import { refType } from '@mui/utils';
+import FormControl from '@mui/material/FormControl';
+import Box from '@mui/material/Box';
 
 function URLInput() {
   const context = useContext(AppContext);
@@ -72,18 +73,20 @@ function URLInput() {
   };
 
   return (
-    <div>
-      <TextField
-        id="url"
-        name="url"
-        label="URL"
-        defaultValue="https://data.nasa.gov/resource/y77d-th95.json"
-        helperText="Insert data URL. Returning data MUST be an array JSON with each element is key/value pair."
-        onChange={loadUrlEvent}
-      />
-      {error && <Alert severity="error">{error}</Alert>}
-      {loading && <CircularProgress color="inherit" />}
-    </div>
+    <Box sx={{ mb: 4 }}>
+      <FormControl fullWidth>
+        <TextField
+          id="url"
+          name="url"
+          label="URL"
+          defaultValue="https://data.nasa.gov/resource/y77d-th95.json"
+          helperText="Insert data URL. Returning data MUST be an array JSON with each element is key/value pair."
+          onChange={loadUrlEvent}
+        />
+        {error && <Alert severity="error">{error}</Alert>}
+        {loading && <CircularProgress color="inherit" />}
+      </FormControl>
+    </Box>
   );
 }
 

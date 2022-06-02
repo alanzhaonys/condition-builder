@@ -4,6 +4,12 @@ import { Operator } from '../lib/Operator';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Box from '@mui/material/Box';
 
 interface Props {
   filter: Filter;
@@ -30,17 +36,17 @@ function ConditionRow({
 }: Props) {
   const changeLeftCondition = (
     filterIndex: number,
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: SelectChangeEvent,
   ): void => {
-    const leftCondition: string = event.currentTarget.value;
+    const leftCondition: string = event.target.value;
     changeLeftConditionCallback(filterIndex, leftCondition);
   };
 
   const changeOperator = (
     filterIndex: number,
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: SelectChangeEvent,
   ): void => {
-    const operator: string = event.currentTarget.value;
+    const operator: string = event.target.value;
     changeOperatorCallback(
       filterIndex,
       Operator[operator as keyof typeof Operator],
@@ -49,9 +55,9 @@ function ConditionRow({
 
   const changeValue = (
     filterIndex: number,
-    event: React.KeyboardEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
-    const value: string = event.currentTarget.value.trim();
+    const value: string = event.target.value.trim();
     changeValueCallback(filterIndex, value);
   };
 
@@ -59,70 +65,108 @@ function ConditionRow({
   const index = `${filterListIndex}-${filterIndex}-${uniq}`;
   return (
     <div className={`condition-row condition-row-${index}`} key={index}>
-      {filterIndex >= 1 && <span className="or">OR</span>}
-      <label htmlFor={`left-condition-${index}`}>
-        Left Condition
-        <select
-          id={`left-condition-${index}`}
-          className="left-condition"
-          defaultValue={filter.leftCondition}
-          onChange={(event) => changeLeftCondition(filterIndex, event)}
-        >
-          {columns &&
-            columns.map((column) => (
-              <option
-                key={`left-condition-option-${index}-${column}`}
-                value={column}
+      <Box
+        sx={{
+          display: 'inline-flex',
+          columnGap: 2,
+          width: '100%',
+        }}
+      >
+        {filterIndex >= 1 && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <p className="or">OR</p>
+          </Box>
+        )}
+        <Box sx={{ flexGrow: 1 }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 2,
+              gridTemplateColumns: 'repeat(3, 1fr)',
+            }}
+          >
+            <FormControl margin="normal" fullWidth>
+              <InputLabel id={`left-condition-label-${index}`}>
+                Left Condition
+              </InputLabel>
+              <Select
+                labelId={`left-condition-label-${index}`}
+                id={`left-condition-${index}`}
+                value={filter.leftCondition}
+                label="Left Condition"
+                onChange={(event) => changeLeftCondition(filterIndex, event)}
               >
-                {column}
-              </option>
-            ))}
-        </select>
-      </label>
-      <label htmlFor={`operator-${index}`}>
-        Operator
-        <select
-          id={`operator-${index}`}
-          className="operator"
-          defaultValue={getEnumKeyByEnumValue(Operator, filter.operator)}
-          onChange={(event) => changeOperator(filterIndex, event)}
+                {columns &&
+                  columns.map((column) => (
+                    <MenuItem
+                      key={`left-condition-option-${index}-${column}`}
+                      value={column}
+                    >
+                      {column}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl margin="normal" fullWidth>
+              <InputLabel id={`operator-label-${index}`}>Operator</InputLabel>
+              <Select
+                labelId={`operator-label-${index}`}
+                id={`operator-${index}`}
+                value={getEnumKeyByEnumValue(Operator, filter.operator)}
+                label="Operator"
+                onChange={(event) => changeOperator(filterIndex, event)}
+              >
+                {Object.keys(Operator).map((key) => (
+                  <MenuItem key={`operator-${index}-${key}`} value={key}>
+                    {Operator[key as keyof typeof Operator]}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl margin="normal" fullWidth>
+              <TextField
+                id={`value-${index}`}
+                label="Value"
+                variant="outlined"
+                defaultValue={filter.value}
+                onChange={(event) => changeValue(filterIndex, event)}
+              />
+            </FormControl>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          {Object.keys(Operator).map((key) => (
-            <option key={`operator-${index}-${key}`} value={key}>
-              {Operator[key as keyof typeof Operator]}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor={`value-${index}`}>
-        Value
-        <input
-          id={`value-${index}`}
-          className="value"
-          type="text"
-          name="value"
-          defaultValue={filter.value}
-          onKeyUp={(event) => changeValue(filterIndex, event)}
-        />
-        <IconButton
-          color="primary"
-          aria-label="Add"
-          component="span"
-          size="large"
-          onClick={() => addCallback(filterIndex)}
-        >
-          <AddIcon />
-        </IconButton>
-        <IconButton
-          color="warning"
-          aria-label="Remove"
-          component="span"
-          size="large"
-          onClick={() => removeCallback(filterIndex)}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </label>
+          <IconButton
+            color="primary"
+            aria-label="Add"
+            component="span"
+            size="large"
+            onClick={() => addCallback(filterIndex)}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            color="warning"
+            aria-label="Remove"
+            component="span"
+            size="large"
+            onClick={() => removeCallback(filterIndex)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </Box>
     </div>
   );
 }

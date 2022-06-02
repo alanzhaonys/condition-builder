@@ -71,6 +71,7 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
     <Paper
       elevation={2}
       className={`condition-group condition-group-${filterListIndex}`}
+      sx={{ mb: 4 }}
     >
       <span className="and-connector">AND</span>
       {filterList.size() > 0 &&
