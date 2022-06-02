@@ -9,6 +9,8 @@ import { Operator } from '../lib/Operator';
 import * as _ from 'lodash';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
+import { refType } from '@mui/utils';
 
 function URLInput() {
   const context = useContext(AppContext);
@@ -55,27 +57,30 @@ function URLInput() {
     }
   };
 
-  const loadUrlEvent = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    const url: string = event.currentTarget.value.trim();
+  const loadUrlEvent = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ): void => {
+    const url: string = event.target.value.trim();
 
-    if (event.key === 'Enter') {
-      if (!isUrl(url)) {
-        setData(initData);
-        setFilterGroup(initFilterGroup);
-        setError('URL entered is invalid');
-        return;
-      }
-      loadDataFromUrl(url);
+    if (!isUrl(url)) {
+      setData(initData);
+      setFilterGroup(initFilterGroup);
+      setError('URL entered is invalid');
+      return;
     }
+    loadDataFromUrl(url);
   };
 
   return (
     <div>
-      <input type="text" name="url" onKeyDown={loadUrlEvent} />
-      <p>
-        Insert data URL. Returning data MUST be an array JSON with each element
-        is key/value pair.
-      </p>
+      <TextField
+        id="url"
+        name="url"
+        label="URL"
+        defaultValue="https://data.nasa.gov/resource/y77d-th95.json"
+        helperText="Insert data URL. Returning data MUST be an array JSON with each element is key/value pair."
+        onChange={loadUrlEvent}
+      />
       {error && <Alert severity="error">{error}</Alert>}
       {loading && <CircularProgress color="inherit" />}
     </div>

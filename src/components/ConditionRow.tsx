@@ -1,6 +1,9 @@
 import React from 'react';
 import { Filter } from '../lib/Filter';
 import { Operator } from '../lib/Operator';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
   filter: Filter;
@@ -101,12 +104,24 @@ function ConditionRow({
           defaultValue={filter.value}
           onKeyUp={(event) => changeValue(filterIndex, event)}
         />
-        <button type="button" onClick={() => addCallback(filterIndex)}>
-          +
-        </button>
-        <button type="button" onClick={() => removeCallback(filterIndex)}>
-          -
-        </button>
+        <IconButton
+          color="primary"
+          aria-label="Add"
+          component="span"
+          size="large"
+          onClick={() => addCallback(filterIndex)}
+        >
+          <AddIcon />
+        </IconButton>
+        <IconButton
+          color="warning"
+          aria-label="Remove"
+          component="span"
+          size="large"
+          onClick={() => removeCallback(filterIndex)}
+        >
+          <DeleteIcon />
+        </IconButton>
       </label>
     </div>
   );
