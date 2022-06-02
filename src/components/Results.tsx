@@ -15,7 +15,7 @@ function Results() {
   return (
     <div className="results">
       <h2>Result</h2>
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={1} sx={{ mb: 4 }}>
         <Chip label={`Total: ` + data.data.length} color="primary" />
         <Chip
           label={`Filtered: ` + filteredData.length}

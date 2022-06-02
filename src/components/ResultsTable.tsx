@@ -24,7 +24,7 @@ function ResultsTable({ columns, rows }: Props) {
   });
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '100%', marginBottom: '100px' }}>
       <DataGrid
         rows={rows}
         columns={columnDefs}

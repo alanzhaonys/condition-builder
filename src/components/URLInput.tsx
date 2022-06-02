@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AppContext from '../lib/AppContext';
 import { DataLoader } from '../lib/DataLoader';
 import { Filter } from '../lib/Filter';
@@ -19,14 +19,19 @@ function URLInput() {
   const filterGroup = context.filterGroup;
   const setFilterGroup = context.setFilterGroup;
 
+  const initUrl = 'https://data.nasa.gov/resource/y77d-th95.json';
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [url, setUrl] = useState<string>(initUrl);
 
-  function isUrl(url: string): boolean {
-    return /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/.test(url);
-  }
+  useEffect(() => {
+    loadDataFromUrl(initUrl);
+  }, [initUrl]);
 
   const loadDataFromUrl = async (url: string) => {
+    if (loading) {
+      return;
+    }
     try {
       setLoading(true);
       filterGroup.reset();
@@ -44,6 +49,7 @@ function URLInput() {
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);
       filterGroup.add(firstFilterList);
+      console.log('here');
       setFilterGroup(_.cloneDeep(filterGroup));
       setError(null);
     } catch (error) {
@@ -55,38 +61,51 @@ function URLInput() {
       setFilterGroup(initFilterGroup);
       setError(errorMessage);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     }
   };
 
-  const loadUrlEvent = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ): void => {
-    const url: string = event.target.value.trim();
-
-    if (!isUrl(url)) {
-      setData(initData);
-      setFilterGroup(initFilterGroup);
-      setError('URL entered is invalid');
-      return;
-    }
-    loadDataFromUrl(url);
+  const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setUrl(event.target.value.trim());
   };
+
+  const onUrlEnter = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      if (!isUrl(url)) {
+        setData(initData);
+        setFilterGroup(initFilterGroup);
+        setError('URL entered is invalid');
+        return;
+      }
+      loadDataFromUrl(url);
+    }
+  };
+
+  function isUrl(url: string): boolean {
+    return /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/.test(url);
+  }
 
   return (
     <Box sx={{ mb: 4 }}>
-      <FormControl fullWidth>
-        <TextField
-          id="url"
-          name="url"
-          label="URL"
-          defaultValue="https://data.nasa.gov/resource/y77d-th95.json"
-          helperText="Insert data URL. Returning data MUST be an array JSON with each element is key/value pair."
-          onChange={loadUrlEvent}
-        />
-        {error && <Alert severity="error">{error}</Alert>}
-        {loading && <CircularProgress color="inherit" />}
-      </FormControl>
+      <Box sx={{ display: 'inline-flex', width: 1 }}>
+        <FormControl fullWidth sx={{ mr: 2, width: '95%' }}>
+          <TextField
+            id="url"
+            name="url"
+            label="URL"
+            defaultValue={url}
+            helperText="Insert data URL. Returning data MUST be an array JSON with each element is key/value pair."
+            onChange={onUrlChange}
+            onKeyPress={onUrlEnter}
+          />
+        </FormControl>
+        <Box sx={{ width: '5%' }}>
+          {loading && <CircularProgress color="success" />}
+        </Box>
+      </Box>
+      {error && <Alert severity="error">{error}</Alert>}
     </Box>
   );
 }
