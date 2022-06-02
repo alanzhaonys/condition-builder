@@ -5,6 +5,7 @@ import { Filter } from '../lib/Filter';
 import { FilterList } from '../lib/FilterList';
 import { Operator } from '../lib/Operator';
 import * as _ from 'lodash';
+import Paper from '@mui/material/Paper';
 
 interface Props {
   filterList: FilterList;
@@ -66,7 +67,10 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
   };
 
   return (
-    <div className={`condition-group condition-group-${filterListIndex}`}>
+    <Paper
+      elevation={3}
+      className={`condition-group condition-group-${filterListIndex}`}
+    >
       <span className="and-connector">AND</span>
       {filterList.size() > 0 &&
         filterList
@@ -85,7 +89,7 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
               removeCallback={removeConditionRow}
             />
           ))}
-    </div>
+    </Paper>
   );
 }
 

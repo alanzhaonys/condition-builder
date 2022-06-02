@@ -7,6 +7,8 @@ import { initData } from '../lib/Data';
 import { initFilterGroup } from '../lib/FilterGroup';
 import { Operator } from '../lib/Operator';
 import * as _ from 'lodash';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function URLInput() {
   const context = useContext(AppContext);
@@ -74,8 +76,8 @@ function URLInput() {
         Insert data URL. Returning data MUST be an array JSON with each element
         is key/value pair.
       </p>
-      {error && <p className="error">{error}</p>}
-      {loading && <p className="loading">loading...</p>}
+      {error && <Alert severity="error">{error}</Alert>}
+      {loading && <CircularProgress color="inherit" />}
     </div>
   );
 }

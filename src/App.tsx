@@ -15,6 +15,7 @@ function App() {
   return (
     <AppContext.Provider value={{ data, setData, filterGroup, setFilterGroup }}>
       <div className="App">
+        <h1>Condition Builder</h1>
         <URLInput />
         {data.columns.length > 1 && <ConditionBuilder />}
         {data.columns.length > 1 && <AddButton />}

@@ -4,6 +4,7 @@ import { Filter } from '../lib/Filter';
 import { FilterList } from '../lib/FilterList';
 import { Operator } from '../lib/Operator';
 import * as _ from 'lodash';
+import Button from '@mui/material/Button';
 
 function AddButton() {
   const context = useContext(AppContext);
@@ -25,9 +26,9 @@ function AddButton() {
 
   return (
     <div className="add-button">
-      <button type="button" onClick={addConditionGroup}>
+      <Button variant="outlined" onClick={addConditionGroup}>
         + And
-      </button>
+      </Button>
     </div>
   );
 }
