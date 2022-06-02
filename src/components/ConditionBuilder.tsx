@@ -14,12 +14,9 @@ function ConditionBuilder() {
     <div className="condition-builder">
       {filterGroup &&
         filterGroup.all().map((filterList, filterListIndex) => {
-          // make key unique to ensure row will get rerendered
-          const uniq = new Date().getTime();
-          const key = `condition-group-${filterListIndex}-${uniq}`;
           return (
             <ConditionGroup
-              key={key}
+              key={`condition-group-${filterListIndex}`}
               filterList={filterList}
               filterListIndex={filterListIndex}
               columns={columns}

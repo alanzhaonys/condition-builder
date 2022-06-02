@@ -39,6 +39,7 @@ function URLInput() {
         leftCondition: data.columns[0],
         operator: Operator.EQ,
         value: '',
+        id: new Date().getTime().toString(),
       };
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);

@@ -17,6 +17,7 @@ function AddButton() {
       leftCondition: data.columns[0],
       operator: Operator.EQ,
       value: '',
+      id: new Date().getTime().toString(),
     };
     const newFilterList = new FilterList();
     newFilterList.add(newFilter);

@@ -61,10 +61,9 @@ function ConditionRow({
     changeValueCallback(filterIndex, value);
   };
 
-  const uniq = new Date().getTime();
-  const index = `${filterListIndex}-${filterIndex}-${uniq}`;
+  const index = `${filterListIndex}-${filterIndex}`;
   return (
-    <div className={`condition-row condition-row-${index}`} key={index}>
+    <div className={`condition-row condition-row-${index}`}>
       <Box
         sx={{
           display: 'inline-flex',
@@ -123,7 +122,7 @@ function ConditionRow({
                 onChange={(event) => changeOperator(filterIndex, event)}
               >
                 {Object.keys(Operator).map((key) => (
-                  <MenuItem key={`operator-${index}-${key}`} value={key}>
+                  <MenuItem key={`operator-option-${index}-${key}`} value={key}>
                     {Operator[key as keyof typeof Operator]}
                   </MenuItem>
                 ))}
@@ -131,6 +130,7 @@ function ConditionRow({
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <TextField
+                key={`value-${index}-${filter.id}`}
                 id={`value-${index}`}
                 label="Value"
                 variant="outlined"

@@ -52,6 +52,7 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
       leftCondition: data.columns[0],
       operator: Operator.EQ,
       value: '',
+      id: new Date().getTime().toString(),
     };
     filterList.insertAfter(index, newFilter);
     filterGroup.set(filterListIndex, filterList);
@@ -76,9 +77,7 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
       <span className="and-connector">AND</span>
       {filterList.size() > 0 &&
         filterList.all().map((filter, filterIndex) => {
-          // make key unique to ensure row will get rerendered
-          const uniq = new Date().getTime();
-          const key = `condition-row-${filterListIndex}-${filterIndex}-${uniq}`;
+          const key = `condition-row-${filterListIndex}-${filterIndex}`;
           return (
             <ConditionRow
               key={key}
