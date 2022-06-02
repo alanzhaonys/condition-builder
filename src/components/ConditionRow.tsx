@@ -10,7 +10,7 @@ interface Props {
   changeLeftConditionCallback: (index: number, leftCondition: string) => void;
   changeOperatorCallback: (index: number, operator: Operator) => void;
   changeValueCallback: (index: number, value: string) => void;
-  addCallback: () => void;
+  addCallback: (index: number) => void;
   removeCallback: (index: number) => void;
 }
 
@@ -52,9 +52,10 @@ function ConditionRow({
     changeValueCallback(filterIndex, value);
   };
 
-  const index = `${filterListIndex}-${filterIndex}`;
+  const uniq = new Date().getTime();
+  const index = `${filterListIndex}-${filterIndex}-${uniq}`;
   return (
-    <div className={`condition-row condition-row-${index}`}>
+    <div className={`condition-row condition-row-${index}`} key={index}>
       {filterIndex >= 1 && <span className="or">OR</span>}
       <label htmlFor={`left-condition-${index}`}>
         Left Condition
@@ -100,7 +101,7 @@ function ConditionRow({
           defaultValue={filter.value}
           onKeyUp={(event) => changeValue(filterIndex, event)}
         />
-        <button type="button" onClick={() => addCallback()}>
+        <button type="button" onClick={() => addCallback(filterIndex)}>
           +
         </button>
         <button type="button" onClick={() => removeCallback(filterIndex)}>

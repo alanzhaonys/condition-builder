@@ -40,6 +40,7 @@ export class Search {
         andConditions.push(orConditions.includes(true));
       }
     }
+    //console.log(andConditions);
     return !andConditions.includes(false);
   }
 
@@ -57,7 +58,7 @@ export class Search {
         return Number(value) > Number(filter.value);
         break;
       case Operator.LT:
-        return Number(value) > Number(filter.value);
+        return Number(value) < Number(filter.value);
         break;
       case Operator.C:
         return String(value).toLowerCase().includes(filter.value.toLowerCase());

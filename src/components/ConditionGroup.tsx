@@ -46,13 +46,14 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
     setFilterGroup(_.cloneDeep(filterGroup));
   };
 
-  const addConditionRow = () => {
+  const addConditionRow = (index: number) => {
+    index++;
     const newFilter: Filter = {
       leftCondition: data.columns[0],
       operator: Operator.EQ,
       value: '',
     };
-    filterList.add(newFilter);
+    filterList.insertAfter(index, newFilter);
     filterGroup.set(filterListIndex, filterList);
     setFilterGroup(_.cloneDeep(filterGroup));
   };
@@ -68,16 +69,18 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
 
   return (
     <Paper
-      elevation={3}
+      elevation={2}
       className={`condition-group condition-group-${filterListIndex}`}
     >
       <span className="and-connector">AND</span>
       {filterList.size() > 0 &&
-        filterList
-          .all()
-          .map((filter, filterIndex) => (
+        filterList.all().map((filter, filterIndex) => {
+          // make key unique to ensure row will get rerendered
+          const uniq = new Date().getTime();
+          const key = `condition-row-${filterListIndex}-${filterIndex}-${uniq}`;
+          return (
             <ConditionRow
-              key={`condition-row-${filterListIndex}-${filterIndex}`}
+              key={key}
               filter={filter}
               filterListIndex={filterListIndex}
               filterIndex={filterIndex}
@@ -88,7 +91,8 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
               addCallback={addConditionRow}
               removeCallback={removeConditionRow}
             />
-          ))}
+          );
+        })}
     </Paper>
   );
 }

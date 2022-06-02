@@ -21,6 +21,10 @@ export class List<T> {
     this.items.push(value);
   }
 
+  insertAfter(index: number, value: T): void {
+    this.items.splice(index, 0, value);
+  }
+
   get(index: number): T {
     return this.items[index];
   }

@@ -13,16 +13,19 @@ function ConditionBuilder() {
   return (
     <div className="condition-builder">
       {filterGroup &&
-        filterGroup
-          .all()
-          .map((filterList, filterListIndex) => (
+        filterGroup.all().map((filterList, filterListIndex) => {
+          // make key unique to ensure row will get rerendered
+          const uniq = new Date().getTime();
+          const key = `condition-group-${filterListIndex}-${uniq}`;
+          return (
             <ConditionGroup
-              key={`condition-group-${filterListIndex}`}
+              key={key}
               filterList={filterList}
               filterListIndex={filterListIndex}
               columns={columns}
             />
-          ))}
+          );
+        })}
     </div>
   );
 }
