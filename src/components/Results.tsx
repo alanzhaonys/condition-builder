@@ -12,7 +12,7 @@ function Results() {
   const search = new Search(data.data, filterGroup);
   const filteredData = search.search();
 
-  console.log(filterGroup);
+  //console.log(filterGroup);
 
   return (
     <div className="results">
