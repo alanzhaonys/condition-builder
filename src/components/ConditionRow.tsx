@@ -35,7 +35,7 @@ function ConditionRow({
   addCallback,
   removeCallback,
 }: Props) {
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string | null>();
   const [placeholder, setPlaceholder] = useState<boolean>(false);
   const changeLeftCondition = (
     filterIndex: number,
@@ -51,7 +51,7 @@ function ConditionRow({
     event: SelectChangeEvent,
   ): void => {
     const operator: string = event.target.value;
-    setError('');
+    setError(null);
     changeOperatorCallback(
       filterIndex,
       Operator[operator as keyof typeof Operator],
@@ -70,7 +70,6 @@ function ConditionRow({
 
   const addHover = (): void => {
     setPlaceholder(true);
-    console.log('however');
   };
 
   const addLeave = (): void => {
@@ -80,9 +79,11 @@ function ConditionRow({
   function checkNumericError(filter: Filter, value: string) {
     if (
       [Operator.GT, Operator.LT].includes(filter.operator) &&
-      typeof value !== 'number'
+      !/^-?\d*\.?\d*$/.test(value)
     ) {
       setError('Value must be numeric');
+    } else {
+      setError(null);
     }
   }
 
