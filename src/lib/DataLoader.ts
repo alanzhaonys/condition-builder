@@ -17,11 +17,15 @@ export class DataLoader {
   }
 
   async load() {
-    const json = await this.fetch();
-    if (json.error) {
-      throw new Error(json.message);
+    try {
+      const json = await this.fetch();
+      if (json.error) {
+        throw new Error(json.message);
+      }
+      return this.parse(json);
+    } catch (error) {
+      throw new Error('Unable to fetch data');
     }
-    return this.parse(json);
   }
 
   parse(json: Array<object>): Data {
