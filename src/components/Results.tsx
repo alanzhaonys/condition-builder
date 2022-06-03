@@ -12,6 +12,8 @@ function Results() {
   const search = new Search(data.data, filterGroup);
   const filteredData = search.search();
 
+  console.log(filterGroup);
+
   return (
     <div className="results">
       <h2>Result</h2>

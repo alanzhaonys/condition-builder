@@ -1,17 +1,17 @@
 import 'jest';
-import { Data } from '../src/lib/Data';
 import { DataLoader } from '../src/lib/DataLoader';
-jest.mock('../src/lib/DataLoader.ts');
+import fs from 'fs';
 
-describe('Project', () => {
-  it('should fetch data', async () => {
-    const url = 'https://data.nasa.gov/resource/y77d-th95.json';
-    const dataLoader = new DataLoader(url);
-    const data = await dataLoader.load();
+describe('DataLoader Tests', () => {
+  it('should parse data', async () => {
+    // Skip the actual fetch() part
+    const array = JSON.parse(
+      fs.readFileSync('./tests/y77d-th95.json', 'utf-8'),
+    );
+    const dataLoader = new DataLoader('test');
+    const data = dataLoader.parse(array);
+
     expect(data.columns.length).toEqual(10);
-    expect(data.columns).toHaveProperty('name');
-    expect(data.columns).toHaveProperty('id');
-    expect(data.data.length).toEqual(10);
-    expect(typeof data).toBe('Data');
+    expect(data.data.length).toEqual(1000);
   });
 });

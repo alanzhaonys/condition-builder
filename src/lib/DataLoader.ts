@@ -21,6 +21,10 @@ export class DataLoader {
     if (json.error) {
       throw new Error(json.message);
     }
+    return this.parse(json);
+  }
+
+  parse(json: Array<object>): Data {
     const columns = Object.keys(json[0]);
     const data: Data = {
       columns: columns,

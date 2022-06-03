@@ -47,7 +47,6 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
   };
 
   const addConditionRow = (index: number) => {
-    index++;
     const newFilter: Filter = {
       leftCondition: data.columns[0],
       operator: Operator.EQ,

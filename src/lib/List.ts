@@ -22,7 +22,7 @@ export class List<T> {
   }
 
   insertAfter(index: number, value: T): void {
-    this.items.splice(index, 0, value);
+    this.items.splice(++index, 0, value);
   }
 
   get(index: number): T {
