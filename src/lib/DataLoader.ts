@@ -25,6 +25,9 @@ export class DataLoader {
   }
 
   parse(json: Array<object>): Data {
+    if (!json.length) {
+      throw new Error('Unable to fetch data');
+    }
     const columns = Object.keys(json[0]);
     const data: Data = {
       columns: columns,
