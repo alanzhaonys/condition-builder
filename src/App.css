@@ -39,7 +39,7 @@
 
 .condition-group {
   padding: 10px;
-  margin: 5px 0;
+  margin: 30px 0;
 }
 
 .condition-row {
@@ -47,14 +47,60 @@
   margin: 5px 0;
 }
 
-.condition-group .and-connector {
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #333;
+.condition-group {
+  position: relative;
 }
 
-.condition-group:first-of-type .and-connector {
+.condition-group-container .and-connector {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #808080;
+  text-align: left;
+  position: relative;
+  display: block;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.condition-group-container:last-child .condition-group::after,
+.and-connector::before,
+.and-connector::after {
+  display: block;
+  content: '';
+  position: absolute;
+  left: 50px;
+  width: 2px;
+  height: 25px;
+  background-color: #c0c0c0;
+}
+
+.and-connector::before {
+  top: -30px;
+}
+
+.condition-group-container:last-child .condition-group::after {
+  bottom: -30px;
+  height: 30px;
+}
+
+.and-connector::after {
+  bottom: -30px;
+}
+
+.condition-group-container:first-of-type .and-connector:first-of-type {
   display: none;
+}
+
+.add-button {
+  display: flex;
+}
+
+.add-button button {
+  width: 100px; 
+  height: 50px;
+  margin: 0;
+  font-size: 16px;
 }
 
 .or {
@@ -62,6 +108,7 @@
   font-weight: bold;
   text-transform: uppercase;
   margin-right: 10px;
+  font-size: 20px;
 }
 
 .add-button button {
@@ -69,14 +116,4 @@
   font-weight: bold;
   text-transform: uppercase;
   padding: 5px 10px;
-}
-
-.add-button {
-  padding: 10px;
-}
-
-.results-table thead tr th {
-  color: #0969da;
-  font-weight: bold;
-  text-transform: uppercase;
 }

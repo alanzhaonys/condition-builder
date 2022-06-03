@@ -7,7 +7,6 @@ import { initData } from '../lib/Data';
 import { initFilterGroup } from '../lib/FilterGroup';
 import { Operator } from '../lib/Operator';
 import * as _ from 'lodash';
-import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -54,7 +53,7 @@ function URLInput() {
       setError(null);
     } catch (error) {
       let errorMessage = '';
-      if (error instanceof TypeError) {
+      if (error instanceof Error) {
         errorMessage = error.message;
       }
       setData(initData);
@@ -96,7 +95,12 @@ function URLInput() {
             name="url"
             label="URL"
             defaultValue={url}
-            helperText="Insert data URL. Returning data MUST be an array JSON with each element is key/value pair."
+            error={error ? true : false}
+            helperText={
+              error
+                ? error
+                : 'Insert data URL. Returning data MUST be an array JSON with each element is key/value pair.'
+            }
             onChange={onUrlChange}
             onKeyPress={onUrlEnter}
           />
@@ -105,7 +109,6 @@ function URLInput() {
           {loading && <CircularProgress color="success" />}
         </Box>
       </Box>
-      {error && <Alert severity="error">{error}</Alert>}
     </Box>
   );
 }

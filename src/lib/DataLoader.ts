@@ -18,6 +18,9 @@ export class DataLoader {
 
   async load() {
     const json = await this.fetch();
+    if (json.error) {
+      throw new Error(json.message);
+    }
     const columns = Object.keys(json[0]);
     const data: Data = {
       columns: columns,

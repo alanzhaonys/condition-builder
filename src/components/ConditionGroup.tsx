@@ -69,31 +69,32 @@ function ConditionGroup({ filterList, filterListIndex, columns }: Props) {
   };
 
   return (
-    <Paper
-      elevation={2}
-      className={`condition-group condition-group-${filterListIndex}`}
-      sx={{ mb: 4 }}
-    >
-      <span className="and-connector">AND</span>
-      {filterList.size() > 0 &&
-        filterList.all().map((filter, filterIndex) => {
-          const key = `condition-row-${filterListIndex}-${filterIndex}`;
-          return (
-            <ConditionRow
-              key={key}
-              filter={filter}
-              filterListIndex={filterListIndex}
-              filterIndex={filterIndex}
-              columns={columns}
-              changeLeftConditionCallback={changeLeftConditionCallback}
-              changeOperatorCallback={changeOperatorCallback}
-              changeValueCallback={changeValueCallback}
-              addCallback={addConditionRow}
-              removeCallback={removeConditionRow}
-            />
-          );
-        })}
-    </Paper>
+    <div className="condition-group-container">
+      <p className="and-connector">AND</p>
+      <Paper
+        elevation={2}
+        className={`condition-group condition-group-${filterListIndex}`}
+      >
+        {filterList.size() > 0 &&
+          filterList.all().map((filter, filterIndex) => {
+            const key = `condition-row-${filterListIndex}-${filterIndex}`;
+            return (
+              <ConditionRow
+                key={key}
+                filter={filter}
+                filterListIndex={filterListIndex}
+                filterIndex={filterIndex}
+                columns={columns}
+                changeLeftConditionCallback={changeLeftConditionCallback}
+                changeOperatorCallback={changeOperatorCallback}
+                changeValueCallback={changeValueCallback}
+                addCallback={addConditionRow}
+                removeCallback={removeConditionRow}
+              />
+            );
+          })}
+      </Paper>
+    </div>
   );
 }
 

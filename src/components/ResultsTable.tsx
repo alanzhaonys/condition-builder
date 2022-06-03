@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 interface Props {
@@ -7,6 +7,10 @@ interface Props {
 }
 
 function ResultsTable({ columns, rows }: Props) {
+  const [pageSize, setPageSize] = useState<number>(100);
+  const handlePageSizeChange = (pageSize: number) => {
+    setPageSize(pageSize);
+  };
   const columnDefs: GridColDef[] = [];
   columns.map((column) => {
     columnDefs.push({
@@ -28,9 +32,11 @@ function ResultsTable({ columns, rows }: Props) {
       <DataGrid
         rows={rows}
         columns={columnDefs}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={pageSize}
+        onPageSizeChange={handlePageSizeChange}
+        rowsPerPageOptions={[10, 20, 50, 75, 100]}
         checkboxSelection={false}
+        pagination
       />
     </div>
   );
