@@ -8,8 +8,6 @@ function ConditionBuilder() {
   const columns = data.columns;
   const filterGroup = context.filterGroup;
 
-  console.log(filterGroup);
-
   return (
     <div className="condition-builder">
       {filterGroup &&

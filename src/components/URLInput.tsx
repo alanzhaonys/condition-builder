@@ -48,7 +48,6 @@ function URLInput() {
       const firstFilterList = new FilterList();
       firstFilterList.add(firstFilter);
       filterGroup.add(firstFilterList);
-      console.log('here');
       setFilterGroup(_.cloneDeep(filterGroup));
       setError(null);
     } catch (error) {

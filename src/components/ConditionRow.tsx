@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Filter } from '../lib/Filter';
 import { Operator } from '../lib/Operator';
 import IconButton from '@mui/material/IconButton';
@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
 interface Props {
   filter: Filter;
@@ -34,6 +35,8 @@ function ConditionRow({
   addCallback,
   removeCallback,
 }: Props) {
+  const [error, setError] = useState<string>('');
+  const [placeholder, setPlaceholder] = useState<boolean>(false);
   const changeLeftCondition = (
     filterIndex: number,
     event: SelectChangeEvent,
@@ -43,10 +46,12 @@ function ConditionRow({
   };
 
   const changeOperator = (
+    filter: Filter,
     filterIndex: number,
     event: SelectChangeEvent,
   ): void => {
     const operator: string = event.target.value;
+    setError('');
     changeOperatorCallback(
       filterIndex,
       Operator[operator as keyof typeof Operator],
@@ -54,12 +59,32 @@ function ConditionRow({
   };
 
   const changeValue = (
+    filter: Filter,
     filterIndex: number,
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
     const value: string = event.target.value.trim();
+    checkNumericError(filter, value);
     changeValueCallback(filterIndex, value);
   };
+
+  const addHover = (): void => {
+    setPlaceholder(true);
+    console.log('however');
+  };
+
+  const addLeave = (): void => {
+    setPlaceholder(false);
+  };
+
+  function checkNumericError(filter: Filter, value: string) {
+    if (
+      [Operator.GT, Operator.LT].includes(filter.operator) &&
+      typeof value !== 'number'
+    ) {
+      setError('Value must be numeric');
+    }
+  }
 
   const index = `${filterListIndex}-${filterIndex}`;
   return (
@@ -119,7 +144,7 @@ function ConditionRow({
                 id={`operator-${index}`}
                 value={getEnumKeyByEnumValue(Operator, filter.operator)}
                 label="Operator"
-                onChange={(event) => changeOperator(filterIndex, event)}
+                onChange={(event) => changeOperator(filter, filterIndex, event)}
               >
                 {Object.keys(Operator).map((key) => (
                   <MenuItem key={`operator-option-${index}-${key}`} value={key}>
@@ -130,12 +155,14 @@ function ConditionRow({
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <TextField
+                error={error ? true : false}
+                helperText={error ? error : ''}
                 key={`value-${index}-${filter.id}`}
                 id={`value-${index}`}
                 label="Value"
                 variant="outlined"
                 defaultValue={filter.value}
-                onChange={(event) => changeValue(filterIndex, event)}
+                onChange={(event) => changeValue(filter, filterIndex, event)}
               />
             </FormControl>
           </Box>
@@ -147,15 +174,20 @@ function ConditionRow({
             justifyContent: 'center',
           }}
         >
-          <IconButton
-            color="primary"
-            aria-label="Add"
-            component="span"
-            size="large"
-            onClick={() => addCallback(filterIndex)}
-          >
-            <AddIcon />
-          </IconButton>
+          <div onMouseEnter={() => addHover()} onMouseLeave={() => addLeave()}>
+            <IconButton
+              color="primary"
+              aria-label="Add"
+              component="span"
+              size="large"
+              onClick={() => {
+                setPlaceholder(false);
+                addCallback(filterIndex);
+              }}
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
           <IconButton
             color="warning"
             aria-label="Remove"
@@ -167,6 +199,15 @@ function ConditionRow({
           </IconButton>
         </Box>
       </Box>
+      {placeholder && (
+        <Box
+          sx={{
+            width: '100%',
+          }}
+        >
+          <Skeleton variant="rectangular" height={50} />
+        </Box>
+      )}
     </div>
   );
 }
