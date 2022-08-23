@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Filter } from '../lib/Filter';
 import { Operator } from '../lib/Operator';
 import IconButton from '@mui/material/IconButton';
@@ -35,6 +35,7 @@ function ConditionRow({
   addCallback,
   removeCallback,
 }: Props) {
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>();
   const [placeholder, setPlaceholder] = useState<boolean>(false);
   const changeLeftCondition = (
@@ -63,9 +64,11 @@ function ConditionRow({
     filterIndex: number,
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
-    const value: string = event.target.value.trim();
-    checkNumericError(filter, value);
-    changeValueCallback(filterIndex, value);
+    startTransition(() => {
+      const value: string = event.target.value.trim();
+      checkNumericError(filter, value);
+      changeValueCallback(filterIndex, value);
+    });
   };
 
   const addHover = (): void => {
@@ -95,16 +98,14 @@ function ConditionRow({
           display: 'inline-flex',
           columnGap: 2,
           width: '100%',
-        }}
-      >
+        }}>
         {filterIndex >= 1 && (
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-            }}
-          >
+            }}>
             <p className="or">OR</p>
           </Box>
         )}
@@ -114,8 +115,7 @@ function ConditionRow({
               display: 'grid',
               gap: 2,
               gridTemplateColumns: 'repeat(3, 1fr)',
-            }}
-          >
+            }}>
             <FormControl margin="normal" fullWidth>
               <InputLabel id={`left-condition-label-${index}`}>
                 Left Condition
@@ -125,14 +125,12 @@ function ConditionRow({
                 id={`left-condition-${index}`}
                 value={filter.leftCondition}
                 label="Left Condition"
-                onChange={(event) => changeLeftCondition(filterIndex, event)}
-              >
+                onChange={(event) => changeLeftCondition(filterIndex, event)}>
                 {columns &&
                   columns.map((column) => (
                     <MenuItem
                       key={`left-condition-option-${index}-${column}`}
-                      value={column}
-                    >
+                      value={column}>
                       {column}
                     </MenuItem>
                   ))}
@@ -145,8 +143,9 @@ function ConditionRow({
                 id={`operator-${index}`}
                 value={getEnumKeyByEnumValue(Operator, filter.operator)}
                 label="Operator"
-                onChange={(event) => changeOperator(filter, filterIndex, event)}
-              >
+                onChange={(event) =>
+                  changeOperator(filter, filterIndex, event)
+                }>
                 {Object.keys(Operator).map((key) => (
                   <MenuItem key={`operator-option-${index}-${key}`} value={key}>
                     {Operator[key as keyof typeof Operator]}
@@ -173,8 +172,7 @@ function ConditionRow({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-          }}
-        >
+          }}>
           <div onMouseEnter={() => addHover()} onMouseLeave={() => addLeave()}>
             <IconButton
               color="primary"
@@ -184,8 +182,7 @@ function ConditionRow({
               onClick={() => {
                 setPlaceholder(false);
                 addCallback(filterIndex);
-              }}
-            >
+              }}>
               <AddIcon />
             </IconButton>
           </div>
@@ -194,8 +191,7 @@ function ConditionRow({
             aria-label="Remove"
             component="span"
             size="large"
-            onClick={() => removeCallback(filterIndex)}
-          >
+            onClick={() => removeCallback(filterIndex)}>
             <DeleteIcon />
           </IconButton>
         </Box>
@@ -204,8 +200,7 @@ function ConditionRow({
         <Box
           sx={{
             width: '100%',
-          }}
-        >
+          }}>
           <Skeleton variant="rectangular" height={50} />
         </Box>
       )}
